@@ -1,17 +1,12 @@
-
-
-from helpers import *
-from caesar import rotate_string
-
 from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
-
+from helpers import *
 import cgi
+
  
 
-app = Flask(__name__ )
+app = Flask(__name__)
 app.config['DEBUG'] = True
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:blogz@localhost:8889/blogz'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
@@ -42,172 +37,18 @@ class Blog(db.Model):
         self.removed = removed
         self.owner = owner
 
-
-
-
-
-
-
-
-
-
-# Web Casear
-
-form = """<!DOCTYPE html>
-<html>
-    <head>
-        <style>
-            form {{
-                background-color: #eee;
-                padding: 20px;
-                margin: 0 auto;
-                width: 540px;
-                font: 16px sans-serif;
-                border-radius: 10px;
-            }}
-            textarea {{
-                margin: 10px 0;
-                width: 540px;
-                height: 120px;   
-            }}
-              
-            .error {{color: red; }}
-
-            p {{
-                color:red;
-                padding: 20px;
-                margin: 0 auto;
-                width: 540px;
-                font: 16px sans-serif;
-                border-radius: 10px;
-         }}
-
-            div {{
-                color:green;
-                padding: 20px;
-                margin: 0 auto;
-                width: 540px;
-                font: 16px sans-serif;
-                border-radius: 10px;
-         }}
-
-           span {{
-                color:green;
-                padding: 20px;
-                margin: 0 auto;
-                width: 540px;
-                font: 16px sans-serif;
-                border-radius: 10px;
-         }}
-        </style>
-          
-    </head>
-    <body>  
-
-    <form action="/encrypt_post", method="POST" >
-        <a href='/'>Return to Home Page</a> <br> <br>
-        <label>
-            
-            Rotate by
-            <input type="text" value="0" name="rot"/>
-         </label>
-         <p class="error"> </p>
-         <textarea placeholder="Enter text here" name="text"   >{0}</textarea>
-          
-         <input type="submit" value="Submit Query">
-         
-    
-    </form>
-
-"""
-
-jeop = """<!DOCTYPE html>
-<html>
-    <head>
-    <style>
-        .msg {
-    
-                color:blue;
-                padding: 20px;
-                margin: 0 auto;
-                width: 540px;
-                font: 16px sans-serif;
-                border-radius: 10px;
-                
-                }
-          
-         
-    
-    </style>
-        
-    </head>
-    
-    <body>
-
-    <form action="/encrypt" methopd="POST">
-        
-        <span class="msg"> We're waiting for your input &#9786 </span>
-        <br>
-        <span class="msg">Press the pause button when you're tired of hearing the music</span>
-        <div class="msg">
-            <iframe width="420" height="315"
-                   src="https://www.youtube.com/embed/anmdGj2v2WI?autoplay=1&loop=1&playlist=anmdGj2v2WI">
-            </iframe>
-                  
-        </div>
-        
-        
-    </form>
-    </body>
- 
-</html>
- """
-def is_integer(num):
-    try:
-        int(num)
-        return True
-    except ValueError:
-        return False
-
 @app.before_request
-def require_login():  #for blogz
+def require_login():
+    allowed_routes = ["login","static", 'show_a_users_posts', 'post','reqs' , "signup","encrypt", "index", "blog"]
      
-    allowed_routes = ["login","static", 'show_a_users_posts', 'post','reqs' , "signup","encrypt_post", "encrypt_get", "index","all_users", "blog"]
-     
-    if request.endpoint not in allowed_routes and "user_name" not in session:
+    if request.endpoint not in allowed_routes and "user_name" not in session: 
         return redirect("/login" )
 
-@app.route("/")
+
+
+
+@app.route('/', methods=['POST', 'GET'])
 def index():
-     return  render_template("base.html")
-
-
-@app.route("/encrypt_get")
-def encrypt_get():
-     return  form.format("")+ jeop
- 
-@app.route("/encrypt_post" , methods=["POST"])
-def encrypt_post():
-
-     
-    the_text=(request.form['text'])
-    the_rot = (request.form['rot'])
-
-    if is_integer(the_rot) and int(the_rot) > 0:
-     
-        answer = rotate_string(the_text,int(the_rot))
-         
-        return  form.format(answer) + "<br>" + "<div>Success!! - Ok to deliver the message <br> <br>Please Feel free to encrypt another message </div>" + jeop
-    else:
-        return form.format("") + "<p>Invalid Rotate by Entry - It must be an integer greater than zero</p>" + jeop
-
-
-#Blogz
-
-
-
-@app.route('/all_users', methods=['POST', 'GET'])
-def all_users():
     # render list of all blog user ids
     post = User.query.all()
     return  render_template("index.html", post=post, page_title="blog users!", title="Blogz R Us")
@@ -388,5 +229,3 @@ def archives():
 
 if __name__ == '__main__':
     app.run()
-
- 

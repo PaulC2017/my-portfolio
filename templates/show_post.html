@@ -1,0 +1,14 @@
+{% extends "blogz_base.html" %}
+
+{% block content %}
+        
+        <p  class="post_title">{{post_title}}</p>
+        <p class="post_body">{{post_body}}</p>
+        <p class="post_author">
+            written by
+         <a href='/show_a_users_posts?user_name={{user_name}}&user_id={{user_id}}'> {{user_name}} </a>
+        </p>
+
+
+ 
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "blogz_base.html" %}
+
+{% block content %}
+
+<ul>
+    {% for archived_post in archived_post %}
+    <li>  
+        <span class="post_title" >{{ archived_post.title }} </span>
+
+        <br><br>
+           {{ archived_post.body }}
+        <br><br>
+        
+        
+    </li>
+    {% endfor %}
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+<p  class="post_title">{{post_title}}</p>
+<p>{{post_body}}</p>
+
+
+{% endblock %}

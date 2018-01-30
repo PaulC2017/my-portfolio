@@ -1,0 +1,27 @@
+{% extends "blogz_base.html" %}
+
+{% block content %}
+
+{% if post|length == 0 %}
+<p>No Posts yet</p>
+{% else %}
+  
+      
+        {% for post in post %}
+        
+            <a  href = "/show_post?post_body={{post.body}}&post_title={{post.title}}&user_id={{post.owner.id}}&user_name={{post.owner.user_name}}"  class="post_title">{{ post.title }}</a> 
+                <br>
+          
+               <p class="post_body">{{ post.body }} </p>
+               
+                <p class="post_author">
+                    written by
+                <a href= "/show_a_users_posts?user_id={{post.owner.id}}&user_name={{post.owner.user_name}}"> {{post.owner.user_name}}</a>
+                </p>
+                
+        {% endfor %}
+    
+    
+{% endif %}
+   
+{% endblock %}

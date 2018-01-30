@@ -1,0 +1,13 @@
+{% extends "blogz_base.html" %}
+
+{% block content %}
+
+
+{% for post in post %}
+  <ul style="margin-left: 250px;">
+    <li><a href = "/show_a_users_posts?user_name={{post.user_name}}&user_id={{post.id}}"> {{post.user_name}} </a></li>
+  </ul>
+
+{% endfor%}
+
+{% endblock %}

@@ -1,0 +1,41 @@
+
+{% extends "blogz_base.html" %}
+
+{% block content %}
+
+<ol><h2>The following fields cannot be left blank:</h2>
+      <li>User Name</li>
+      <li>Password</li>
+      <li>Verify Password</li>
+</ol>
+
+<ol><h3>User Name Requirements:</h3>
+      <li>Cannot contain a space character</li>
+      <li>Cannot consist of less than 3 characters</li>
+      <li>Cannot consist of more than 20 characters
+          <ul> <li>e.g., a Username of "me" would be invalid).</li> </ul>
+      </li>
+</ol>
+
+
+<ol><h3>Password and Verify Password Requirements:</h3>
+    <li>Cannot contain a space character</li>
+    <li>Cannot consist of less than 3 characters</li>
+    <li>Cannot consist of more than 20 characters
+        <ul> <li>e.g., a Password of "me" would be invalid).</li> </ul>
+    </li>
+    <li>Password and Verify Password must match.</li>
+</ol>
+<ol><h3>Email Requirements (If it is not left blank):</h3>
+    <li>Cannot contain a space character</li>
+    <li>Cannot consist of less than 3 characters</li>
+    <li>Cannot consist of more than 20 characters
+        <ul> <li>e.g., an Email of "me" would be invalid).</li> </ul>
+    </li>
+    <li>Must contain a single "@" and a single "."</li>
+</ol>
+
+<h3 style="margin-left: 250px;"><a href="/signup">Click here to return to the input form</a></h3>
+
+
+{% endblock %}     
