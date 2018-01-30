@@ -1,6 +1,6 @@
 # Web Casear
 
-from flask import Flask, request, redirect 
+from flask import Flask, request, redirect , render_template
 from caesar import rotate_string
 
  
@@ -122,25 +122,31 @@ def is_integer(num):
     except ValueError:
         return False
 
-@app.route("/encrypt")
+
+@app.route("/")
 def index():
+     return  render_template("base.html")
+
+
+@app.route("/encrypt")
+def encrypt_get():
      return  form.format("")+ jeop
  
 
 @app.route("/encrypt" , methods=["POST"])
-def encrypt():
+def encrypt_post():
 
      
     the_text=(request.form['text'])
     the_rot = (request.form['rot'])
 
-    if is_integer(the_rot):
+    if is_integer(the_rot) and int(the_rot) > 0:
      
         answer = rotate_string(the_text,int(the_rot))
          
         return  form.format(answer) + "<br>" + "<div>Success!! - Ok to deliver the message <br> <br>Please Feel free to encrypt another message </div>" + jeop
     else:
-        return form.format("") + "<p>Invalid Rotate by Entry - It must be an integer</p>" + jeop
+        return form.format("") + "<p>Invalid Rotate by Entry - It must be an integer greater than zero</p>" + jeop
 
 
 
